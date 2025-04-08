@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Testing</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		
+		.input-text {
+			width: 100%;
+			height: 30px;
+			padding: 10px;
+			margin-bottom: 20px;
+			border: none;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		
+		.input-text:focus {
+			outline: none;
+			border-color: #aaa;
+		}
+		
+		.submit-button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		.submit-button:hover {
+			background-color: #45a049;
+		}
+		
+		.output-section {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		
+		.output-section h2 {
+			margin-top: 0;
+			font-size: 16px;
+			font-weight: bold;
+		}
+		
+		.score {
+			display: inline-block;
+			margin-right: 20px;
+		}
+		
+		.score span {
+			font-size: 18px;
+			font-weight: bold;
+		}
+		
+		.score span.red {
+			color: red;
+		}
+		
+		.score span.green {
+			color: green;
+		}
+	</style>
+</head>
+<body>
+	<form action="/" method="post">
+		<label for="input-text">Enter the text that we want to test:</label>
+		<textarea id="input-text" class="input-text" name="eval_string"></textarea>
+		<input type="submit" class="submit-button"></input>
+	</form>
+	<h2>All queries: {{all_queries}}</h2>
+	<h2>Eval string: {{eval_string}}</h2>
+	{% if results %}
+	<h2>Results</h2>
+	<div class="score">
+		{% for result in results %}
+		<span>Score: </span><span class="red">{{ result }}</span>
+		{% endfor %}
+    {% else %}
+      <p>No results found.</p>
+    {% endif %}	
+	</div>
+</body>
+</html>
+
