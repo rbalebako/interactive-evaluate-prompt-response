@@ -11,7 +11,7 @@ app = Flask(__name__)
 #foo = secrets.token_urlsafe(16)
 #app.secret_key = foo
 
-all_queries = list()
+#all_queries = list()
 
 # TODO this probably doesn't need to be it's own function
 # Request the evaluation results 
@@ -26,14 +26,15 @@ def index():
     if request.method == 'POST':
         bad_response = request.form['bad_response']
         good_response = request.form['good_response']
-        all_queries.append(bad_response)
+        #all_queries.append(bad_response)
         results = get_eval_results(bad_response, good_response)
-        return render_template('index.html', results=results, eval_string=bad_response, all_queries=all_queries)
+        return render_template('index.html', results=results, eval_string=bad_response)
     return render_template('index.html', results="", eval_string="")
 
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    #app.run(host="0.0.0.0", port=8080)
 
 
 

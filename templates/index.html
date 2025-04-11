@@ -1,118 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-	<title>Text Testing</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-		}
-		
-		.input-text {
-			width: 100%;
-			height: 30px;
-			padding: 10px;
-			margin-bottom: 20px;
-			border: none;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
-		
-		.input-text:focus {
-			outline: none;
-			border-color: #aaa;
-		}
-		
-		.submit-button {
-			background-color: #4CAF50;
-			color: white;
-			padding: 10px 20px;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-		
-		.submit-button:hover {
-			background-color: #45a049;
-		}
-		
-		.output-section {
-			margin-top: 20px;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
-		
-		.output-section h2 {
-			margin-top: 0;
-			font-size: 16px;
-			font-weight: bold;
-		}
-		
-		.score {
-			display: inline-block;
-			margin-right: 20px;
-		}
-		
-		.score span {
-			font-size: 18px;
-			font-weight: bold;
-		}
-		
-		table {
-             border: 1px solid #ccc;
-             border-radius: 5px;
-             margin: auto;
-             width: 50%;
-             text-align: center;
-             background-color: #f2f2f2;
-         }
-         th, td {
-             padding: 12px;
-             border: 1px solid #ccc;
-             border-radius: 5px;
-             text-align: left;
-         }
-         tr:nth-child(even) {background-color: #f2f2f2;}
-         th {
-             background-color: #4CAF50;
-             color: white;
-         }
-	</style>
-</head>
-<body>
-	<form action="/" method="post">
-		<label for="input-text">A bad Chatbot answer:</label>
-		<textarea id="input-text" class="input-text" name="bad_response"></textarea>
-		<label for="input-text">A better Chatbot answer:</label>
-		<textarea id="input-text" class="input-text" name="good_response"></textarea>
-		<input type="submit" class="submit-button"></input>
-	</form>
-	<!--h2>All queries: {{all_queries}}</h2-->
-	{% if results %}
-	<td>{{eval_string}}</td>
-	<table>
-	<thead>
-		<tr>
-			<th>Metric Name</th>
-			<th>Library</th>
-			<th>Score</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for result in results %}
-			<tr>
-				<td>{{result.name}}</td>
-				<td>{{result.library}}</td>
-				<td>{{result.score}}</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
-{% else %}
-<p>No results found.</p>
-{% endif %}	
-</body>
+	<head>
+		<title>Test the AI Test</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../static/css/main.css" />
+		<noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+					
+				<!-- TEXT AREA AND FORMS -->
+				<section class="wrapper style1 align-center">
+					<div class="inner medium">
+						<h2>When is Your AI Judge Good Enough?</h1><br>
+						<h3>Test whether an AI Judge gives the same results you would. 	</h3><br>
+
+						<form action="/" method="post">
+							<div class="fields">
+								<div class="field">
+									<label for="bad">A bad Chatbot answer:</label>
+									<textarea id="input-text" class="input-text" name="bad_response"></textarea>
+								</div>
+								<div class="field">
+									<label for="good">A better Chatbot answer:</label>
+									<textarea id="input-text" class="input-text" name="good_response"></textarea>
+								</div>
+							</div>
+							<ul class="actions special">
+								<li><input type="submit" name="submit" id="submit" value="Submit and Wait" /></li>
+							</ul>
+						</form>	
+					</div>
+				</section>
+
+
+				<!-- RESULTS HERE -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							{% if results %}
+							<h3>This is how bad the AI Judge thinks the response would be:</h3>
+							<p>{{eval_string}}</p>
+							<table>
+							<thead>
+								<tr>
+									<th>Metric Name</th>
+									<th>Library</th>
+									<th>Score</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for result in results %}
+									<tr>
+										<td>{{result.name}}</td>
+										<td>{{result.library}}</td>
+										<td>{{result.score}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+						{% else %}
+						<p>Results will be here</p>
+						{% endif %}	
+						</div>
+
+					</section>
+
+				
+
+				<!-- Footer -->
+					<footer class="wrapper style1 align-center">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="www.brandworthy.ai" class="icon brands style2 "><span class="label">Website</span></a></li>
+							</ul>
+							<p>&copy; code by Brandworthy.AI  Design by: <a href="https://html5up.net">HTML5 UP</a>.</p>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../static/js/jquery.min.js"></script>
+			<script src="../static/js/jquery.scrollex.min.js"></script>
+			<script src="../static/js/jquery.scrolly.min.js"></script>
+			<script src="../static/js/browser.min.js"></script>
+			<script src="../static/js/breakpoints.min.js"></script>
+			<script src="../static/js/util.js"></script>
+			<script src="../static/js/main.js"></script>
+
+	</body>
 </html>
-
-
