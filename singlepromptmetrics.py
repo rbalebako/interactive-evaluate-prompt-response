@@ -1,20 +1,35 @@
+###################
+# Author: Rebecca Balebako
+# Creative Commons Copyright
+# 
+# Module that takes a "good" string and a "bad" string
+# and runs AI Framework evaluation on them.
+# Note it hardcodes the expected use case into the prompt for DeepEval.
+# "Outputs" are the outputs of a sample use case chatbot.
+#################
+
 import os
 from deepeval import evaluate
 from deepeval.test_case import LLMTestCase, LLMTestCaseParams
 from deepeval.metrics import AnswerRelevancyMetric, GEval
 import requests
 
-#TODO add https://www.trydeepteam.com/docs/red-teaming-vulnerabilities
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 def trim_score(score):
+    """
+    If the score is a float, format it to 2 sig digits
+    """
     if type(score) is float:
         return f"{score:.2f}"
     return score
 
-# Relevancy is supposed to compare the actual output to the good output
+
 def deepeval_test_relevancy(actual_output, good_output):
+    """ 
+    Relevancy is supposed to compare the actual output to the good output 
+    """
     test_case = LLMTestCase(
         input=good_output,
         actual_output=actual_output,
@@ -26,8 +41,11 @@ def deepeval_test_relevancy(actual_output, good_output):
     return({"name":"relevancy", "library":"DeepEval:Confident.AI", "score":trim_score(relevancy_metric.score)})
 
 
-# Check if the actual output is correct based on the expected output
 def deepeval_test_correctness(actual_output, expected_output):
+    """ 
+    Check if the actual output is correct based on the expected output
+    """
+
     correctness_metric = GEval(
         name="Correctness",
         criteria="Determine if the 'actual output' is correct based on the 'expected output'.",
@@ -44,17 +62,7 @@ def deepeval_test_correctness(actual_output, expected_output):
     correctness_metric.measure(test_case)
     return({"name":"correctness", "library":"DeepEval:Confident.AI", "score":trim_score(correctness_metric.score)})
 
-# DeepTeam seems to test a whole model and not just a prompt
-@DeprecationWarning
-def deepeval_test_instructions(actual_output, good_output):
-    test_case = LLMTestCase(
-        input=good_output,
-        actual_output=actual_output,
-    )
-    # Define metrics
-    prompt_leakage = PromptLeakage(types=["instructions"])
-    prompt_leakage.measure(test_case)
-    return({"name":"intructions", "library":"DeepTeam:Confident.AI", "score":trim_score(prompt_leakage.score)})
+
 
 # initiate the lakera_guard client, should only be called once
 def setup_lakera_guard():
@@ -69,6 +77,10 @@ def setup_lakera_guard():
 
 
 def evaluate_gpt_response_with_lakera_guard(bad_response, good_response):
+    """
+    Call Lakera Guard API, it only evaluates the bad response
+    We filter out the moderated_content scores to have fewer metrics to look at
+    """
     #if lakera_client == None:
     lakera_client = setup_lakera_guard()
 
@@ -105,8 +117,11 @@ def evaluate_gpt_response_with_lakera_guard(bad_response, good_response):
 
 
 
-# run the different evals that we have for one response (bad/good)
 def run_all_evaluations(bad_response, good_response):
+    """ 
+    run the different evals that we have for one response (bad/good)
+    """ 
+
     metrics = []
     test = False
     if test: 

@@ -1,4 +1,13 @@
 
+###################
+# Flask app that takes two text strings as input
+# and runs AI evaluation frameworks to get specific scores.
+# User inputs a good chatbot result and a bad chatbot result
+# Display a table of results from different evaluation frameworks
+# Author: Rebecca Balebako
+# Create Commons Copyright
+#################
+
 import os
 import singlepromptmetrics
 from flask import Flask, render_template, request
@@ -13,11 +22,6 @@ app = Flask(__name__)
 
 #all_queries = list()
 
-# TODO this probably doesn't need to be it's own function
-# Request the evaluation results 
-def get_eval_results(bad_string, good_string):
-    return singlepromptmetrics.run_all_evaluations(bad_string, good_string)
-
 
 # the home page has a form and we do stuff when there is a POST
 @app.route('/', methods=['GET', 'POST'])
@@ -26,8 +30,7 @@ def index():
     if request.method == 'POST':
         bad_response = request.form['bad_response']
         good_response = request.form['good_response']
-        #all_queries.append(bad_response)
-        results = get_eval_results(bad_response, good_response)
+        results = singlepromptmetrics.run_all_evaluations(bad_string, good_string)
         return render_template('index.html', results=results, eval_string=bad_response)
     return render_template('index.html', results="", eval_string="")
 
