@@ -30,14 +30,17 @@ def index():
     if request.method == 'POST':
         bad_response = request.form['bad_response']
         good_response = request.form['good_response']
-        results = singlepromptmetrics.run_all_evaluations(bad_string, good_string)
+        results = singlepromptmetrics.run_all_evaluations(bad_response, good_response)
         return render_template('index.html', results=results, eval_string=bad_response)
     return render_template('index.html', results="", eval_string="")
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(
+        debug=os.environ.get("FLASK_DEBUG") == "1",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8080)),
+    )
     #app.run(host="0.0.0.0", port=8080)
-
 
 

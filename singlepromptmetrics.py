@@ -66,15 +66,15 @@ def deepeval_test_correctness(actual_output, expected_output):
 
 # initiate the lakera_guard client, should only be called once
 def setup_lakera_guard():
-    LAKERA_GUARD_API_KEY = os.getenv('LAKERA_GUARD_API_KEY')
+    lakera_guard_api_key = os.getenv("LAKERA_GUARD_API_KEY")
+    if not lakera_guard_api_key:
+        raise RuntimeError("LAKERA_GUARD_API_KEY must be set to run Lakera Guard evaluations.")
+
     lakera_client = requests.Session()
-
     lakera_client.headers.update({
-        'Authorization': f'Bearer {LAKERA_GUARD_API_KEY}'
+        "Authorization": f"Bearer {lakera_guard_api_key}"
     })
-
     return lakera_client
-
 
 def evaluate_gpt_response_with_lakera_guard(bad_response, good_response):
     """
@@ -94,8 +94,10 @@ def evaluate_gpt_response_with_lakera_guard(bad_response, good_response):
                     "content": bad_response
                 }
             ]
-        }
+        },
+        timeout=30,
     )
+    response.raise_for_status()
 
     # Step 3: Parse the response from Lakera Guard
     guard_response = response.json()
